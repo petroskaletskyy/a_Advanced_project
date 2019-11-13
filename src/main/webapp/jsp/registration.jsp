@@ -53,7 +53,7 @@
                 <form:errors path="email"></form:errors>
             </div>
         </spring:bind>
-        
+   
 
         <spring:bind path="password">
             <div class="form-group ${status.error ? 'has-error' : ''}">
