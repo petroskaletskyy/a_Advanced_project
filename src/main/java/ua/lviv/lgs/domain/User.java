@@ -1,21 +1,16 @@
 package ua.lviv.lgs.domain;
 
-import java.util.Collection;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"),name = "user")
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"), name = "user")
 public class User {
 
 	@Id
@@ -26,6 +21,7 @@ public class User {
 	private String lastName;
 	private String email;
 	private String password;
+	private String passwordConfirm;
 
 	private int faculty;
 
@@ -37,16 +33,29 @@ public class User {
 
 	private int confirmed;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "users_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-	private Collection<Role> roles;
+	@Enumerated(EnumType.STRING)
+	private UserRole role;
 
 	public User() {
 	}
 
+	public User(User user) {
+		this.id = user.id;
+		this.firstName = user.firstName;
+		this.lastName = user.lastName;
+		this.email = user.email;
+		this.password = user.password;
+		this.faculty = user.faculty;
+		this.mark1 = user.mark1;
+		this.mark2 = user.mark2;
+		this.mark3 = user.mark3;
+		this.certificate = user.certificate;
+		this.confirmed = user.confirmed;
+		this.role = user.role;
+	}
+
 	public User(String firstName, String lastName, String email, String password, int faculty, int mark1, int mark2,
 			int mark3, int certificate, int confirmed) {
-		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -60,8 +69,7 @@ public class User {
 	}
 
 	public User(String firstName, String lastName, String email, String password, int faculty, int mark1, int mark2,
-			int mark3, int certificate, int confirmed, Collection<Role> roles) {
-		super();
+			int mark3, int certificate, int confirmed, UserRole role) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -72,7 +80,7 @@ public class User {
 		this.mark3 = mark3;
 		this.certificate = certificate;
 		this.confirmed = confirmed;
-		this.roles = roles;
+		this.role = role;
 	}
 
 	public Integer getId() {
@@ -113,6 +121,14 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
 	}
 
 	public int getFaculty() {
@@ -163,28 +179,22 @@ public class User {
 		this.confirmed = confirmed;
 	}
 
-	public Collection<Role> getRoles() {
-		return roles;
+	public UserRole getRole() {
+		return role;
 	}
 
-	public void setRoles(Collection<Role> roles) {
-		this.roles = roles;
+	public void setRole(UserRole role) {
+		this.role = role;
 	}
+
+	
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + 
-				", firstName=" + firstName + 
-				", lastName=" + lastName + 
-				", email=" + email
-				+ ", password=" + password + 
-				", faculty=" + faculty + 
-				", mark1=" + mark1 + 
-				", mark2=" + mark2
-				+ ", mark3=" + mark3 + 
-				", certificate=" + certificate + 
-				", confirmed=" + confirmed + 
-				", roles=" + roles	+ "]";
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", password=" + password + ", faculty=" + faculty + ", mark1=" + mark1 + ", mark2=" + mark2
+				+ ", mark3=" + mark3 + ", certificate=" + certificate + ", confirmed=" + confirmed + ", role=" + role
+				+ "]";
 	}
 
 }
