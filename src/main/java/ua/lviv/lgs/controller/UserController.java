@@ -7,8 +7,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+import ua.lviv.lgs.domain.Faculty;
+import ua.lviv.lgs.domain.Subjects;
 import ua.lviv.lgs.domain.User;
+import ua.lviv.lgs.service.FacultyService;
 import ua.lviv.lgs.service.UserService;
 
 @Controller
@@ -17,12 +21,14 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public String registration(Model model) {
-        model.addAttribute("userForm", new User());
+	@Autowired
+	private FacultyService facultyService;
 
-        return "registration";
-    }
+	@RequestMapping(value = "/registration", method = RequestMethod.GET)
+	public String registration(Model model) {
+		model.addAttribute("userForm", new User());
+		return "registration";
+	}
 
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
@@ -46,8 +52,19 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String welcome(Model model) {
-		return "home";
+	public ModelAndView welcome() {
+		ModelAndView modelAndView = new ModelAndView("home");
+		modelAndView.addObject("faculties", facultyService.findAllFaculties());
+		return modelAndView;
 	}
 
+	@RequestMapping(value = "/create-faculty", method = RequestMethod.GET)
+	public ModelAndView createFaculty() {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("createFaculty");
+		modelAndView.addObject("subjects", Subjects.values());
+		modelAndView.addObject("faculty", new Faculty());
+
+		return modelAndView;
+	}
 }

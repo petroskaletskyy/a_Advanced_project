@@ -1,13 +1,14 @@
 package ua.lviv.lgs.domain;
 
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "faculty")
@@ -17,30 +18,29 @@ public class Faculty {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@NotEmpty
-	private String faculty;
-	@NotEmpty
-	private String subject1;
-	@NotEmpty
-	private String subject2;
-	@NotEmpty
-	private String subject3;
+	@Column
+	private String name;
 
-	@Min(0)
-	@Max(500)
-	private int requirement;
+	@Column(name = "quantity_of_students")
+	private Integer quantityOfStudents;
+
+	@ElementCollection
+	private List<Subjects> subjects;
 
 	public Faculty() {
 	}
 
-	public Faculty(@NotEmpty String faculty, @NotEmpty String subject1, @NotEmpty String subject2,
-			@NotEmpty String subject3, @Min(0) @Max(500) int requirement) {
-		super();
-		this.faculty = faculty;
-		this.subject1 = subject1;
-		this.subject2 = subject2;
-		this.subject3 = subject3;
-		this.requirement = requirement;
+	public Faculty(String name, Integer quantityOfStudents, List<Subjects> subjects) {
+		this.name = name;
+		this.quantityOfStudents = quantityOfStudents;
+		this.subjects = subjects;
+	}
+
+	public Faculty(Integer id, String name, Integer quantityOfStudents, List<Subjects> subjects) {
+		this.id = id;
+		this.name = name;
+		this.quantityOfStudents = quantityOfStudents;
+		this.subjects = subjects;
 	}
 
 	public Integer getId() {
@@ -51,55 +51,74 @@ public class Faculty {
 		this.id = id;
 	}
 
-	public String getFaculty() {
-		return faculty;
+	public String getName() {
+		return name;
 	}
 
-	public void setFaculty(String faculty) {
-		this.faculty = faculty;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getSubject1() {
-		return subject1;
+	public Integer getQuantityOfStudents() {
+		return quantityOfStudents;
 	}
 
-	public void setSubject1(String subject1) {
-		this.subject1 = subject1;
+	public void setQuantityOfStudents(Integer quantityOfStudents) {
+		this.quantityOfStudents = quantityOfStudents;
 	}
 
-	public String getSubject2() {
-		return subject2;
+	public List<Subjects> getSubjects() {
+		return subjects;
 	}
 
-	public void setSubject2(String subject2) {
-		this.subject2 = subject2;
+	public void setSubjects(List<Subjects> subjects) {
+		this.subjects = subjects;
 	}
 
-	public String getSubject3() {
-		return subject3;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((quantityOfStudents == null) ? 0 : quantityOfStudents.hashCode());
+		result = prime * result + ((subjects == null) ? 0 : subjects.hashCode());
+		return result;
 	}
 
-	public void setSubject3(String subject3) {
-		this.subject3 = subject3;
-	}
-
-	public int getRequirement() {
-		return requirement;
-	}
-
-	public void setRequirement(int requirement) {
-		this.requirement = requirement;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Faculty other = (Faculty) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (name != other.name)
+			return false;
+		if (quantityOfStudents == null) {
+			if (other.quantityOfStudents != null)
+				return false;
+		} else if (!quantityOfStudents.equals(other.quantityOfStudents))
+			return false;
+		if (subjects == null) {
+			if (other.subjects != null)
+				return false;
+		} else if (!subjects.equals(other.subjects))
+			return false;
+		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Faculty [id=" + id + 
-				", faculty=" + faculty + 
-				", subject1=" + subject1 + 
-				", subject2=" + subject2 + 
-				", subject3=" + subject3 + 
-				", requirement=" + requirement + 
-				"]";
+		return "Faculties [id=" + id + ", name=" + name + ", quantityOfStudents=" + quantityOfStudents + ", subjects="
+				+ subjects + "]";
 	}
 
 }

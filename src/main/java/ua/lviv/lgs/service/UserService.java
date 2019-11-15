@@ -18,20 +18,14 @@ public class UserService {
 	private PasswordEncoder bCryptPasswordEncoder;
 
 	public void save(User user) {
-		user.setFirstName(user.getFirstName());
-		user.setLastName(user.getLastName());
-		user.setEmail(user.getEmail());
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		user.setPasswordConfirm(bCryptPasswordEncoder.encode(user.getPasswordConfirm()));
-		user.setFaculty(user.getFaculty());
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPasswordConfirm()));
 		user.setRole(UserRole.ROLE_USER);
-		user.setMark1(user.getMark1());
-		user.setMark2(user.getMark2());
-		user.setMark3(user.getMark3());
-		user.setCertificate(user.getCertificate());
-		user.setConfirmed(0);
-		
 		userRepository.save(user);
+	}
+	
+	public User findByEmail(String email) {
+		return userRepository.findByEmail(email).get();
 	}
 
 }

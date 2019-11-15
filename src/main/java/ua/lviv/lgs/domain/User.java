@@ -7,10 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"), name = "user")
+@Table(name = "users")
 public class User {
 
 	@Id
@@ -22,16 +21,6 @@ public class User {
 	private String email;
 	private String password;
 	private String passwordConfirm;
-
-	private int faculty;
-
-	private int mark1;
-	private int mark2;
-	private int mark3;
-
-	private int certificate;
-
-	private int confirmed;
 
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
@@ -45,41 +34,21 @@ public class User {
 		this.lastName = user.lastName;
 		this.email = user.email;
 		this.password = user.password;
-		this.faculty = user.faculty;
-		this.mark1 = user.mark1;
-		this.mark2 = user.mark2;
-		this.mark3 = user.mark3;
-		this.certificate = user.certificate;
-		this.confirmed = user.confirmed;
 		this.role = user.role;
 	}
 
-	public User(String firstName, String lastName, String email, String password, int faculty, int mark1, int mark2,
-			int mark3, int certificate, int confirmed) {
+	public User(String firstName, String lastName, String email, String password) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-		this.faculty = faculty;
-		this.mark1 = mark1;
-		this.mark2 = mark2;
-		this.mark3 = mark3;
-		this.certificate = certificate;
-		this.confirmed = confirmed;
 	}
 
-	public User(String firstName, String lastName, String email, String password, int faculty, int mark1, int mark2,
-			int mark3, int certificate, int confirmed, UserRole role) {
+	public User(String firstName, String lastName, String email, String password, UserRole role) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-		this.faculty = faculty;
-		this.mark1 = mark1;
-		this.mark2 = mark2;
-		this.mark3 = mark3;
-		this.certificate = certificate;
-		this.confirmed = confirmed;
 		this.role = role;
 	}
 
@@ -131,54 +100,6 @@ public class User {
 		this.passwordConfirm = passwordConfirm;
 	}
 
-	public int getFaculty() {
-		return faculty;
-	}
-
-	public void setFaculty(int faculty) {
-		this.faculty = faculty;
-	}
-
-	public int getMark1() {
-		return mark1;
-	}
-
-	public void setMark1(int mark1) {
-		this.mark1 = mark1;
-	}
-
-	public int getMark2() {
-		return mark2;
-	}
-
-	public void setMark2(int mark2) {
-		this.mark2 = mark2;
-	}
-
-	public int getMark3() {
-		return mark3;
-	}
-
-	public void setMark3(int mark3) {
-		this.mark3 = mark3;
-	}
-
-	public int getCertificate() {
-		return certificate;
-	}
-
-	public void setCertificate(int certificate) {
-		this.certificate = certificate;
-	}
-
-	public int getConfirmed() {
-		return confirmed;
-	}
-
-	public void setConfirmed(int confirmed) {
-		this.confirmed = confirmed;
-	}
-
 	public UserRole getRole() {
 		return role;
 	}
@@ -187,14 +108,68 @@ public class User {
 		this.role = role;
 	}
 
-	
-
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", password=" + password + ", faculty=" + faculty + ", mark1=" + mark1 + ", mark2=" + mark2
-				+ ", mark3=" + mark3 + ", certificate=" + certificate + ", confirmed=" + confirmed + ", role=" + role
-				+ "]";
+				+ ", password=" + password + ", role=" + role + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((passwordConfirm == null) ? 0 : passwordConfirm.hashCode());
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (passwordConfirm == null) {
+			if (other.passwordConfirm != null)
+				return false;
+		} else if (!passwordConfirm.equals(other.passwordConfirm))
+			return false;
+		if (role != other.role)
+			return false;
+		return true;
 	}
 
 }
