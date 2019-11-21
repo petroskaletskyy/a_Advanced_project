@@ -1,5 +1,7 @@
 package ua.lviv.lgs.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +33,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
-	public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
+	public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) throws IOException {
 
 		if (bindingResult.hasErrors()) {
 			return "registration";

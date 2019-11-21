@@ -32,18 +32,18 @@
 
 	<!-- REGISTRATION FORM -->
 	<div class="text-center" style="padding: 50px 0">
-		<div class="logo">register</div>
+		<div class="logo">Register</div>
 		<!-- Main Form -->
 		<div class="login-form-1">
 			<form:form method="POST" modelAttribute="userForm" id="register-form"
-				class="text-left">
+				class="text-left" enctype="multipart/form-data">
 				<div class="login-form-main-message"></div>
 				<div class="main-login-form">
 					<div class="login-group">
 						<spring:bind path="firstName">
 							<div class="form-group ${status.error ? 'has-error' : ''}">
 								<label for="reg_firstname" class="sr-only">First Name</label> 
-								<form:input type="text" path="firstName" class="form-control" id="firstName"
+								<form:input type="text" path="firstName" class="form-control" id="reg_firstname"
 									name="firstName" placeholder="first name"></form:input>
 								<form:errors path="firstName"></form:errors>
 							</div>
@@ -52,7 +52,7 @@
 						<spring:bind path="lastName">
 						<div class="form-group ${status.error ? 'has-error' : ''}">
 							<label for="reg_lastname" class="sr-only">Last Name</label> 
-							<form:input type="text" path="lastName" class="form-control" id="lastName" name="lastName"
+							<form:input type="text" path="lastName" class="form-control" id="reg_lastname" name="lastName"
 								placeholder="last name"></form:input>
 							<form:errors path="lastName"></form:errors>
 						</div>

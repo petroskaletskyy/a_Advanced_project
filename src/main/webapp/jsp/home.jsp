@@ -84,7 +84,7 @@
 					<i class="fas fa-align-justify"></i>
 				</button>
 
-				<div class="collapse navbar-collapse">
+				<div class="collapse navbar-collapse w-100 order-3 dual-collapse2">
 					<ul class="nav navbar-nav ml-auto">
 						<li class="nav-item"><c:if
 								test="${pageContext.request.userPrincipal.name != null}">
@@ -143,6 +143,11 @@
 									<a
 										href="rating?currentFacultyId=${currentFaculty.id}"
 										class="btn btn-primary">Show rating</a>	
+									</security:authorize>
+									<security:authorize access="hasRole('ROLE_ADMIN')">
+									<a
+										href="#"
+										class="btn btn-primary">Delete this faculty</a>
 									</security:authorize>
 								</div>
 							</div>
