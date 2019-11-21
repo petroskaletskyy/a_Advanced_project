@@ -59,7 +59,7 @@
 			<p>${pageContext.request.userPrincipal.name}</p>
 			<li class="active"><a href="/home">Home</a></li>
 			<li><a href="/create-faculty">Create faculty</a></li>
-			<li><a href="/rating">Rating</a></li>
+			<li><a href="/registeredEntrants">Registered Entrants</a></li>
 		</ul>
 	</nav>
 
@@ -135,6 +135,9 @@
 									<a
 										href="entrantRegistration?currentFacultyId=${currentFaculty.id}&currentUserEmail=${pageContext.request.userPrincipal.name}"
 										class="btn btn-primary">Choose this faculty</a>
+									<a
+										href="rating?currentFacultyId=${currentFaculty.id}""
+										class="btn btn-primary">Show rating</a>	
 								</div>
 							</div>
 						</div>

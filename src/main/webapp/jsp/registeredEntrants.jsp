@@ -1,6 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
@@ -10,20 +10,17 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Faculty creation</title>
+<title>Registered Entrants</title>
 
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
 	integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
 	crossorigin="anonymous">
 <link rel="stylesheet" href="../css/home.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <!-- Font Awesome JS -->
 <script defer
@@ -62,8 +59,8 @@
 		<ul class="list-unstyled components">
 			<p>${pageContext.request.userPrincipal.name}</p>
 			<li><a href="/home">Home</a></li>
-			<li class="active"><a href="/create-faculty">Create faculty</a></li>
-			<li><a href="/registeredEntrants">Registered Entrants</a></li>
+			<li><a href="/create-faculty">Create faculty</a></li>
+			<li class="active"><a href="/registeredEntrants">Registered Entrants</a></li>
 		</ul>
 	</nav>
 
@@ -103,41 +100,53 @@
 				</div>
 			</div>
 		</nav>
+		
+		<!-- Page Content  -->
+		<c:if test="${not empty registeredEntrants}">
+			<table style="width: 100%; border: 2px solid black;"">
+
+				<tr>
+					<th>Photo</th>
+					<th>First name</th>
+					<th>Last name</th>
+					<th>Email</th>
+					<th>Faculty name</th>
+					<th colspan="4">Marks</th>
+					<th>Action</th>
+				</tr>
+				<c:forEach items="${registeredEntrants}" var="currentRegisteredEntrant">
+					<tr>
+						<td rowspan="2"><img src="data:image/png;base64,${currentRegisteredEntrant.encodedEntrantImage}" width="80" height="80" /></td>
+						<td rowspan="2">${currentRegisteredEntrant.user.firstName}</td>
+						<td rowspan="2">${currentRegisteredEntrant.user.lastName}</td>
+						<td rowspan="2">${currentRegisteredEntrant.user.email}</td>
+						<td rowspan="2">${currentRegisteredEntrant.faculty.name}</td>
+						
+						<c:forEach items="${currentRegisteredEntrant.faculty.subjects}" var="currentSubject">
+							<td>${currentSubject}</td>
+						</c:forEach>
+						
+						<td rowspan="2">
+							<form:form method="POST" action="${contextPath}/entrantSubmiting">						
+								<input type="hidden" name="facultyId" value="${currentRegisteredEntrant.faculty.id}" />
+								<input type="hidden" name="userId" value="${currentRegisteredEntrant.user.id}" />
+								<input type="hidden" name="entrantId" value="${currentRegisteredEntrant.id}" />
+								<button type="submit">Submit</button>
+							</form:form>
+						</td>
+					</tr>
+					
+					<tr>
+						<c:forEach items="${currentRegisteredEntrant.marks}" var="currentMark">
+							<td>${currentMark}</td>
+						</c:forEach>
+					</tr>
+				</c:forEach>
+			</table>
+		</c:if>
+	</div>
 
 		<!-- Page Content  -->
-		<form:form method="POST" action="${contextPath}/addFaculty"
-					modelAttribute="faculty">
-					<table>
-						<tr>
-							<td><form:label path="name">New faculty name: </form:label></td>
-							<td><form:input type="text" path="name" /></td>
-						</tr>
-
-						<tr>
-							<td><form:label path="quantityOfStudents">Quantity of students: </form:label></td>
-							<td><form:input path="quantityOfStudents" /></td>
-						</tr>
-
-						<tr>
-							<td>Choose subjects: <br><c:if test="${not empty subjects}">
-									<c:forEach items="${subjects}" var="currentSubject">
-										<form:checkbox path="subjects" value="${currentSubject}" />${currentSubject}<br>
-									</c:forEach>
-								</c:if>
-							</td>
-						</tr>
-
-						<tr>
-							<td><input type="submit" value="Submit" /></td>
-						</tr>
-					</table>
-
-					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" />
-				</form:form>
-
-
-	</div>
 </div>
 <script type="text/javascript" src="../js/home.js"></script>
 </body>
